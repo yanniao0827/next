@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -22,20 +23,14 @@ export default function Navbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
-                  Home
-                </a>
+                <Link className="nav-link" href="/product-list">
+                  商品列表
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Link
-                </a>
-              </li>
-
-              <li className="nav-item">
-                <a className="nav-link disabled" aria-disabled="true">
-                  Disabled
-                </a>
+                <Link className="nav-link" href="/ab-list">
+                  通訊錄列表
+                </Link>
               </li>
             </ul>
           </div>
