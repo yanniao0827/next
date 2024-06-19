@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+// import styles from ""
+// import Image from "next/image";
 
 export default function Navbar() {
   return (
@@ -7,7 +9,7 @@ export default function Navbar() {
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
-            Navbar
+            活力起點
           </a>
           <button
             className="navbar-toggler"
@@ -30,6 +32,11 @@ export default function Navbar() {
               <li className="nav-item">
                 <Link className="nav-link" href="/ab-list">
                   通訊錄列表
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" href="/cart">
+                  購物車 <span class="badge text-bg-success">3</span>
                 </Link>
               </li>
             </ul>

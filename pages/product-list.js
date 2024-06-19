@@ -4,6 +4,21 @@ import Head from "next/head";
 import { products } from "@/data/products";
 
 export default function ProductList() {
+    const addToCart = (pid) => {
+        const cartKey = "shin-cart";
+        const item = products.find((p) => p.id === pid);
+        console.log({ pid, item });
+        const oriData = localStorage.getItem(cartKey);
+        let cartData = []; // 預設值
+        try {
+          cartData = JSON.parse(oriData);
+          if (!Array.isArray(cartData)) {
+            cartData = [];
+          }
+        } catch (ex) {}
+        cartData.push({ ...item, quantity: 1 });
+        localStorage.setItem(cartKey, JSON.stringify(cartData));
+      };
   return (
     <Layout1>
       <Head>
@@ -28,7 +43,7 @@ export default function ProductList() {
                 <td>{p.bookname}</td>
                 <td>{p.pages}</td>
                 <td>{p.price}</td>
-                <td><button type="button" class="btn btn-dark">加入</button></td>
+                <td><button type="button" class="btn btn-dark"  onClick={() => addToCart(p.id)}>加入</button></td>
             </tr>
         })
     }
