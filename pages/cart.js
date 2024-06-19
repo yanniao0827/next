@@ -26,6 +26,19 @@ export default function Cart() {
     setCart(resultCart);
   };
 
+//   變更數量
+const cartModifyQty=(pid,qty)=>{
+    let cartData = getCartFromStorage();
+    const resultCart = cartData.map((p) => {
+        if(p.id === pid){
+            return{...p,quantity:qty};
+        }else{
+            return{...p}
+        }
+    });
+    localStorage.setItem(cartKey,JSON.stringify(resultCart));
+    setCart(resultCart);
+}
     useEffect(() => {
         setCart(getCartFromStorage());
       }, []);
@@ -50,7 +63,17 @@ export default function Cart() {
                 <td>{p.id}</td>
                 <td>{p.bookname}</td>
                 <td>{p.price}</td>
-                <td>{p.quantity}</td>
+                <td>                  <select
+                    className="form-select"
+                    value={p.quantity}
+                    onChange={(e) => cartModifyQty(p.id, e.currentTarget.value)}
+                  >
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select></td>
                 <td>{p.quantity*p.price}</td>
                 <td><button type="button" class="btn btn-danger"  onClick={() => cartRemoveItem(p.id)}>刪除商品</button></td>
             </tr>
