@@ -6,8 +6,11 @@ import { products } from "@/data/products";
 export default function ProductList() {
     const addToCart = (pid) => {
         const cartKey = "shin-cart";
+    
         const item = products.find((p) => p.id === pid);
+        if(! item) return; // 沒找到項目就結束
         console.log({ pid, item });
+    
         const oriData = localStorage.getItem(cartKey);
         let cartData = []; // 預設值
         try {
@@ -16,7 +19,12 @@ export default function ProductList() {
             cartData = [];
           }
         } catch (ex) {}
-        cartData.push({ ...item, quantity: 1 });
+    
+        const cartItem = cartData.find((p) => p.id === pid); // 購物車裡有沒有這個商品
+        if(cartItem) return; // 購物車裡已經有這個商品
+        const {id, bookname, pages, price} = item;
+        cartData.push({ id, bookname, pages, price, quantity: 1 });
+    
         localStorage.setItem(cartKey, JSON.stringify(cartData));
       };
   return (
