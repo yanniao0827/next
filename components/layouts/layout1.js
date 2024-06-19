@@ -3,7 +3,7 @@ import Navbar from "./navbar";
 import Head from "next/head";
 import Footer from "./footer";
 
-export default function Layout1({ title = "小新小站", children }) {
+export default function Layout1({ title = "活力啟點", children }) {
   return (
     <>
       <Head>
