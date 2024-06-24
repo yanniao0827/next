@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AB_LIST } from "@/config/api-path";
+import Layout1 from "@/components/layouts/layout1";
 
 export default function AbList() {
   const [data, setData] = useState({
@@ -17,7 +18,7 @@ export default function AbList() {
   }, []);
 
   return (
-    <div className="container">
+    <Layout1 title="通訊錄列表" pageName="ab-list">
       <div className="row">
         <div className="col">
         <table className="table table-bordered table-striped ">
@@ -42,6 +43,6 @@ export default function AbList() {
           </table>
         </div>
       </div>
-    </div>
+    </Layout1>
   );
 }

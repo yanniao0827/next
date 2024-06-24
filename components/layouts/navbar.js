@@ -3,13 +3,19 @@ import Link from "next/link";
 // import styles from ""
 // import Image from "next/image";
 
-export default function Navbar() {
+const myStyle={
+  borderRadius:"6px",
+  backgroundColor: "black",
+  color: "white",
+  fontWeight: "900",
+};
+export default function Navbar({pageName=""}) {
   return (
     <div className="container">
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
-            活力起點
+            活力啟點
           </a>
           <button
             className="navbar-toggler"
@@ -30,7 +36,7 @@ export default function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" href="/ab-list">
+                <Link className="nav-link" style={pageName==="ab-list"? myStyle:null} href="/ab-list">
                   通訊錄列表
                 </Link>
               </li>
