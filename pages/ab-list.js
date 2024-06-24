@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { AB_LIST } from "@/config/api-path";
 
 export default function AbList() {
   const [data, setData] = useState({
@@ -6,7 +7,7 @@ export default function AbList() {
     rows: []
   });
   useEffect( ()=>{
-    fetch("http://localhost:3001/address-book/api")
+    fetch(`${AB_LIST}?page=2`)
     .then((r)=>r.json())
     .then((myData)=>{
       console.log(data);
