@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AB_LIST } from "@/config/api-path";
 import Layout1 from "@/components/layouts/layout1";
+import Link from "next/link";
 
 export default function AbList() {
   const [data, setData] = useState({
@@ -30,9 +31,9 @@ export default function AbList() {
                   if (p < 1 || p > data.totalPages) return null;
                   return (
                     <li className="page-item" key={i}>
-                      <a className="page-link" href="#">
+                      <Link className="page-link" href={`?page=${p}`}>
                         {p}
-                      </a>
+                      </Link>
                     </li>
                   );
                 })}
