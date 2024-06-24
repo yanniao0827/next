@@ -43,7 +43,7 @@ const cartModifyQty=(pid,qty)=>{
         setCart(getCartFromStorage());
       }, []);
   return (
-    <Layout1>
+    <Layout1 title="購物車" pageName="cart">
       <h2>購物車</h2>
       <table class="table">
   <thead>

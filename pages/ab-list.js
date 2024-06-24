@@ -19,6 +19,27 @@ export default function AbList() {
 
   return (
     <Layout1 title="通訊錄列表" pageName="ab-list">
+    <div className="row">
+        <div className="col">
+          <nav aria-label="Page navigation example">
+            <ul className="pagination">
+              {Array(11)
+                .fill(1)
+                .map((v, i) => {
+                  const p = data.page - 5 + i;
+                  if (p < 1 || p > data.totalPages) return null;
+                  return (
+                    <li className="page-item" key={i}>
+                      <a className="page-link" href="#">
+                        {p}
+                      </a>
+                    </li>
+                  );
+                })}
+            </ul>
+          </nav>
+        </div>
+      </div>
       <div className="row">
         <div className="col">
         <table className="table table-bordered table-striped ">

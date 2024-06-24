@@ -41,7 +41,11 @@ export default function Navbar({pageName=""}) {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" href="/cart">
+              <Link
+                  className="nav-link"
+                  style={pageName === "cart" ? myStyle : null}
+                  href="/cart"
+                >
                   購物車 <span class="badge text-bg-success">3</span>
                 </Link>
               </li>
