@@ -1,6 +1,7 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
 
 export default function LifeA() {
+    const [val,setVal]=useState(6);
     useEffect(()=>{
         let n = 0;
         console.log("已掛載");
@@ -15,6 +16,18 @@ export default function LifeA() {
         };
     },[]);
 
+    useEffect(()=>{
+        console.log("已更新");
+        return()=>{
+            console.log("即將更新");
+        };
+    },[val])
 
-    return <div>LifeA</div>;
+
+    return  <>
+    <div>
+      LifeA <button onClick={() => setVal(val + 1)}>加一</button>
+    </div>
+    <div>{val}</div>
+  </>;
 }
