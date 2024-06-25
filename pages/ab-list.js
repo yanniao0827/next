@@ -6,19 +6,28 @@ import { useRouter } from "next/router";
 
 export default function AbList() {
   const router=useRouter();
+  // const [loading, setLoading] = useState(false);
+  // const [loadingError, setLoadingError] = useState('');
   const [data, setData] = useState({
     success: false,
     rows: []
   });
-  useEffect( ()=>{
-    fetch(`${AB_LIST}?${new URLSearchParams(router.query)}`)
-    .then((r)=>r.json())
-    .then((myData)=>{
-      console.log(data);
-      setData(myData);
-    })
 
+  useEffect(() => {
+    // setLoading(true);
+    fetch(`${AB_LIST}?${new URLSearchParams(router.query)}`)
+      .then((r) => r.json())
+      .then((myData) => {
+        console.log(data);
+        setData(myData);
+        // setLoading(false);
+      })
+      .catch((ex) => {
+        // setLoadingError('載入資料時發生錯誤');
+        // setLoading(false);
+      });
   }, [router]);
+
   console.log(`ab-list render--------`);
 
   if(! router.isReady||!data.success) return null;
@@ -34,9 +43,10 @@ export default function AbList() {
                 .fill(1)
                 .map((v, i) => {
                   const p = data.page - 5 + i;
+                  if(isNaN(p))return null;
                   if (p < 1 || p > data.totalPages) return null;
                   return (
-                    <li className="page-item" key={i}>
+                    <li className={data.page === p?`page-item active`:`page-item`} key={p}>
                       <Link className="page-link" href={`?page=${p}`}>
                         {p}
                       </Link>
