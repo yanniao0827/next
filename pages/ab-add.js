@@ -12,6 +12,14 @@ export default function AbAdd() {
     birthday: "",
     address: "",
   });
+
+  const onChange = (e) => {
+    console.log(e.target.name, e.target.value);
+    const newForm = { ...myForm, [e.target.name]: e.target.value };
+    console.log(newForm);
+    setMyForm(newForm);
+  };
+
   return (
     <Layout1 title="新增通訊錄" pageName="ab-add">
       <div className="row">
@@ -30,11 +38,7 @@ export default function AbAdd() {
                     id="name"
                     name="name"
                     value={myForm.name}
-                    onChange={(e) => {
-                      console.log(e.target.value);
-                      const newForm = { ...myForm, name: e.target.value };
-                      setMyForm(newForm);
-                    }}
+                    onChange={onChange}
                   />
                   <div className="form-text"></div>
                 </div>
@@ -48,6 +52,8 @@ export default function AbAdd() {
                     className="form-control"
                     id="email"
                     name="email"
+                    value={myForm.email}
+                    onChange={onChange}
                   />
                   <div className="form-text"></div>
                 </div>
@@ -61,6 +67,8 @@ export default function AbAdd() {
                     className="form-control"
                     id="mobile"
                     name="mobile"
+                    value={myForm.mobile}
+                    onChange={onChange}
                   />
                   <div className="form-text"></div>
                 </div>
@@ -74,6 +82,8 @@ export default function AbAdd() {
                     className="form-control"
                     id="birthday"
                     name="birthday"
+                    value={myForm.birthday}
+                    onChange={onChange}
                   />
                   <div className="form-text"></div>
                 </div>
@@ -89,6 +99,8 @@ export default function AbAdd() {
                     name="address"
                     cols="30"
                     rows="3"
+                    value={myForm.address}
+                    onChange={onChange}
                   ></textarea>
                   <div className="form-text"></div>
                 </div>
