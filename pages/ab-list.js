@@ -15,6 +15,8 @@ export default function AbList() {
 
   useEffect(() => {
     // setLoading(true);
+    const controller=new AbortController();
+    const signal=controller.signal;
     fetch(`${AB_LIST}?${new URLSearchParams(router.query)}`)
       .then((r) => r.json())
       .then((myData) => {
@@ -25,7 +27,11 @@ export default function AbList() {
       .catch((ex) => {
         // setLoadingError('載入資料時發生錯誤');
         // setLoading(false);
+        console.log('fetch-ex:',ex);
       });
+      return () => {
+        controller.abort(); // 取消上一次的 ajax
+      };
   }, [router]);
 
   console.log(`ab-list render--------`);
