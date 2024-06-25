@@ -2,21 +2,27 @@ import { useEffect, useState } from "react";
 import { AB_LIST } from "@/config/api-path";
 import Layout1 from "@/components/layouts/layout1";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function AbList() {
+  const router=useRouter();
   const [data, setData] = useState({
     success: false,
     rows: []
   });
   useEffect( ()=>{
-    fetch(`${AB_LIST}?page=2`)
+    fetch(`${AB_LIST}?${new URLSearchParams(router.query)}`)
     .then((r)=>r.json())
     .then((myData)=>{
       console.log(data);
       setData(myData);
     })
 
-  }, []);
+  }, [router]);
+  console.log(`ab-list render--------`);
+
+  if(! router.isReady||!data.success) return null;
+
 
   return (
     <Layout1 title="通訊錄列表" pageName="ab-list">
