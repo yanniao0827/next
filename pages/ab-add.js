@@ -3,6 +3,7 @@ import { AB_LIST } from "@/config/api-path";
 import Layout1 from "@/components/layouts/layout1";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { z } from "zod";
 
 export default function AbAdd() {
   const [myForm, setMyForm] = useState({
@@ -15,6 +16,13 @@ export default function AbAdd() {
 
   const onChange = (e) => {
     console.log(e.target.name, e.target.value);
+    const emailSchema=z.string().email({message:"郵件格式錯誤"});
+    if(e.target.name==="email"){
+      const result=emailSchema.safeParse(e.target.value);
+      console.log(JSON.stringify(result,null,4));
+    };
+
+
     const newForm = { ...myForm, [e.target.name]: e.target.value };
     console.log(newForm);
     setMyForm(newForm);
