@@ -16,14 +16,22 @@ export default function AbAdd() {
 
   const onChange = (e) => {
     console.log(e.target.name, e.target.value);
-    const emailSchema=z.string().email({message:"郵件格式錯誤"});
-    if(e.target.name==="email"){
-      const result=emailSchema.safeParse(e.target.value);
-      console.log(JSON.stringify(result,null,4));
-    };
-
-
+    // const emailSchema=z.string().email({message:"郵件格式錯誤"});
+    // if(e.target.name==="email"){
+    //   const result=emailSchema.safeParse(e.target.value);
+    //   console.log(JSON.stringify(result,null,4));
+    // };
     const newForm = { ...myForm, [e.target.name]: e.target.value };
+    const schemaForm=z.object({
+      name:z.string().min(2,{message:"姓名格式錯誤，至少兩字"}),
+      email:z.string().email({message:"郵件格式錯誤"}),
+      mobile:z.string().regex(/09\d{2}-?\d{3}-?\d{3}/,{message:"手機格式錯誤"})
+    });
+
+    const result2=schemaForm.safeParse(newForm);
+    console.log(JSON.stringify(result2,null,4));
+
+    
     console.log(newForm);
     setMyForm(newForm);
   };
