@@ -7,6 +7,8 @@ import { z } from "zod";
 import { AB_ADD_POST } from "@/config/api-path";
 
 export default function AbAdd() {
+  // 表單完成後進行頁面跳轉
+  const router=useRouter();
   const [myForm, setMyForm] = useState({
     name: "",
     email: "",
@@ -68,6 +70,7 @@ export default function AbAdd() {
       const result = await r.json();
       console.log(result);
       if (result.success) {
+        router.push(`/ab-list`);
       } else {
       }
     } catch (ex) {
