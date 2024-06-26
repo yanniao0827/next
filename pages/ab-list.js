@@ -26,7 +26,7 @@ export default function AbList() {
       if (result.success) {
         
         // 留在原本的頁面, 但是要觸發 router 狀態變更, 讓整個頁面更新
-        router.push(location.search); 
+        router.push(location.search,undefined,{scroll:false}); 
       }
     } catch (ex) {}
   };
