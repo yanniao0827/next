@@ -3,6 +3,7 @@ import { AB_LIST } from "@/config/api-path";
 import Layout1 from "@/components/layouts/layout1";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 export default function AbList() {
   const router=useRouter();
@@ -12,6 +13,10 @@ export default function AbList() {
     success: false,
     rows: []
   });
+
+  const removeOne=(sid)=>{
+    console.log({sid});
+  }
 
   useEffect(() => {
     // setLoading(true);
@@ -68,7 +73,11 @@ export default function AbList() {
         <table className="table table-bordered table-striped ">
             <thead>
               <tr>
+              <th>
+                  <FaRegTrashCan />
+                </th>
                 <th>#</th>
+
                 <th>姓名</th>
                 <th>電郵</th>
                 <th>手機</th>
@@ -77,7 +86,19 @@ export default function AbList() {
             <tbody>
               {data.rows.map((r, i) => {
                 return <tr key={r.sid}>
+                <td>
+                      <a
+                        href="#/"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          removeOne(r.sid);
+                        }}
+                      >
+                        <FaRegTrashCan />
+                      </a>
+                    </td>
                   <td>{r.sid}</td>
+
                   <td>{r.name}</td>
                   <td>{r.email}</td>
                   <td>{r.mobile}</td>
