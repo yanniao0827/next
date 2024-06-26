@@ -5,10 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { z } from "zod";
 import { AB_ADD_POST } from "@/config/api-path";
-
-export default function AbEdit() {
-  // 表單完成後進行頁面跳轉
-  const router=useRouter();
+export default function AbAdd() {
+  const router = useRouter();
   const [myForm, setMyForm] = useState({
     name: "",
     email: "",
@@ -21,41 +19,59 @@ export default function AbEdit() {
     email: "",
     mobile: "",
   });
-
   const onChange = (e) => {
     console.log(e.target.name, e.target.value);
-    const emailSchema=z.string().email({message:"郵件格式錯誤"});
-    if(e.target.name==="email"){
-      const result=emailSchema.safeParse(e.target.value);
-      console.log(JSON.stringify(result,null,4));
-    };
-    const newForm = { ...myForm, [e.target.name]: e.target.value };
-    const schemaForm=z.object({
-      name:z.string().min(2,{message:"姓名格式錯誤，至少兩字"}),
-      email:z.string().email({message:"郵件格式錯誤"}),
-      mobile:z.string().regex(/09\d{2}-?\d{3}-?\d{3}/,{message:"手機格式錯誤"})
+    // 做表單的驗證
+    /*
+    const schemaEmail = z.string().email({ message: "請填寫正確的電郵格式" });
+    if (e.target.name === "email") {
+      const result = schemaEmail.safeParse(e.target.value);
+      console.log(JSON.stringify(result, null, 4));
+    }
+    */
+    /*
+    {
+    "success": false,
+    "error": {
+        "issues": [
+            {
+                "validation": "regex",
+                "code": "invalid_string",
+                "message": "請填寫正確的手機格式",
+                "path": [
+                    "mobile"
+                ]
+            }
+        ],
+        "name": "ZodError"
+      }
+    }
+    */
+    const schemaForm = z.object({
+      name: z.string().min(2, { message: "姓名至少兩個字" }),
+      email: z.string().email({ message: "請填寫正確的電郵格式" }),
+      mobile: z
+        .string()
+        .regex(/09\d{2}-?\d{3}-?\d{3}/, { message: "請填寫正確的手機格式" }),
     });
-
-    const result2=schemaForm.safeParse(newForm);
-    console.log(JSON.stringify(result2,null,4));
-
-    const newFormErrors={
+    const newForm = { ...myForm, [e.target.name]: e.target.value };
+    const result2 = schemaForm.safeParse(newForm);
+    console.log(JSON.stringify(result2, null, 4));
+    // 重置 myFormErrors
+    const newFormErrors = {
       name: "",
       email: "",
       mobile: "",
     };
-
-    if(!result2.success && result2?.error?.issues?.length){
-      for(let issue of result2.error.issues){
+    if (!result2.success && result2?.error?.issues?.length) {
+      for (let issue of result2.error.issues) {
         newFormErrors[issue.path[0]] = issue.message;
       }
     }
-
-    
+    setMyFormErrors(newFormErrors);
     console.log(newForm);
     setMyForm(newForm);
   };
-
   const onSubmit = async (e) => {
     e.preventDefault();
     // 如果表單驗證有通過的話
@@ -70,22 +86,20 @@ export default function AbEdit() {
       const result = await r.json();
       console.log(result);
       if (result.success) {
-        router.push(`/ab-list`);
+        router.push(`/ab-list`); // 跳頁
       } else {
       }
     } catch (ex) {
       console.log(ex);
     }
   };
-
-
   return (
-    <Layout1 title="新增通訊錄" pageName="ab-add">
+    <Layout1 title="編輯通訊錄" pageName="ab-add">
       <div className="row">
         <div className="col-6">
           <div className="card">
             <div className="card-body">
-              <h5 className="card-title">新增資料</h5>
+              <h5 className="card-title">編輯資料</h5>
               <form name="form1" onSubmit={onSubmit}>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
@@ -101,7 +115,6 @@ export default function AbEdit() {
                   />
                   <div className="form-text">{myFormErrors.name}</div>
                 </div>
-
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">
                     Email
@@ -116,7 +129,6 @@ export default function AbEdit() {
                   />
                   <div className="form-text">{myFormErrors.email}</div>
                 </div>
-
                 <div className="mb-3">
                   <label htmlFor="mobile" className="form-label">
                     手機
@@ -131,7 +143,6 @@ export default function AbEdit() {
                   />
                   <div className="form-text">{myFormErrors.mobile}</div>
                 </div>
-
                 <div className="mb-3">
                   <label htmlFor="birthday" className="form-label">
                     生日
@@ -146,12 +157,10 @@ export default function AbEdit() {
                   />
                   <div className="form-text"></div>
                 </div>
-
                 <div className="mb-3">
                   <label htmlFor="address" className="form-label">
                     地址
                   </label>
-
                   <textarea
                     className="form-control"
                     id="address"
@@ -163,9 +172,8 @@ export default function AbEdit() {
                   ></textarea>
                   <div className="form-text"></div>
                 </div>
-
                 <button type="submit" className="btn btn-primary">
-                  新增
+                  修改
                 </button>
               </form>
             </div>

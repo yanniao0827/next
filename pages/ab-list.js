@@ -4,6 +4,7 @@ import Layout1 from "@/components/layouts/layout1";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { FaRegPenToSquare } from "react-icons/fa6";
 import { AB_ITEM_DELETE } from "@/config/api-path";
 
 export default function AbList() {
@@ -91,10 +92,10 @@ export default function AbList() {
                   <FaRegTrashCan />
                 </th>
                 <th>#</th>
-
                 <th>姓名</th>
                 <th>電郵</th>
                 <th>手機</th>
+                <th><FaRegPenToSquare/></th>
               </tr>
             </thead>
             <tbody>
@@ -112,10 +113,12 @@ export default function AbList() {
                       </a>
                     </td>
                   <td>{r.sid}</td>
-
                   <td>{r.name}</td>
                   <td>{r.email}</td>
                   <td>{r.mobile}</td>
+                  <td><Link href={`/ab-edit/${r.sid}`}>
+                  <FaRegPenToSquare/>
+                  </Link></td>
                 </tr>;
               })}
             </tbody>
