@@ -63,9 +63,12 @@ export default function AbAdd() {
     }
     // 走到這邊表示, 表單有通過驗證
     try {
-      const r = await fetch(AB_UPDATE_PUT, {
-        method: "POST",
-        body: JSON.stringify(myForm),
+        const newMyForm={...myForm};
+        delete newMyForm.sid;
+        delete newMyForm.created_at;
+        const r=await  fetch(`${AB_UPDATE_PUT}/${router.query.sid}`, {
+            method: "PUT",
+            body: JSON.stringify(newMyForm),
         headers: {
           "Content-Type": "application/json",
         },
@@ -73,8 +76,10 @@ export default function AbAdd() {
       const result = await r.json();
       console.log(result);
       if (result.success) {
-        router.push(`/ab-list`); // 跳頁
+        // router.push(`/ab-list`); // 跳頁
+        alert("修改成功");
       } else {
+        alert("資料沒有修改");
       }
     } catch (ex) {
       console.log(ex);
