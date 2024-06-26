@@ -13,14 +13,19 @@ export default function AbAdd() {
     birthday: "",
     address: "",
   });
+  const [myFormErrors, setMyFormErrors] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+  });
 
   const onChange = (e) => {
     console.log(e.target.name, e.target.value);
-    // const emailSchema=z.string().email({message:"郵件格式錯誤"});
-    // if(e.target.name==="email"){
-    //   const result=emailSchema.safeParse(e.target.value);
-    //   console.log(JSON.stringify(result,null,4));
-    // };
+    const emailSchema=z.string().email({message:"郵件格式錯誤"});
+    if(e.target.name==="email"){
+      const result=emailSchema.safeParse(e.target.value);
+      console.log(JSON.stringify(result,null,4));
+    };
     const newForm = { ...myForm, [e.target.name]: e.target.value };
     const schemaForm=z.object({
       name:z.string().min(2,{message:"姓名格式錯誤，至少兩字"}),
@@ -30,6 +35,18 @@ export default function AbAdd() {
 
     const result2=schemaForm.safeParse(newForm);
     console.log(JSON.stringify(result2,null,4));
+
+    const newFormErrors={
+      name: "",
+      email: "",
+      mobile: "",
+    };
+
+    if(!result2.success && result2?.error?.issues?.length){
+      for(let issue of result2.error.issues){
+        newFormErrors[issue.path[0]] = issue.message;
+      }
+    }
 
     
     console.log(newForm);
@@ -56,7 +73,7 @@ export default function AbAdd() {
                     value={myForm.name}
                     onChange={onChange}
                   />
-                  <div className="form-text"></div>
+                  <div className="form-text">{myFormErrors.name}</div>
                 </div>
 
                 <div className="mb-3">
@@ -71,7 +88,7 @@ export default function AbAdd() {
                     value={myForm.email}
                     onChange={onChange}
                   />
-                  <div className="form-text"></div>
+                  <div className="form-text">{myFormErrors.email}</div>
                 </div>
 
                 <div className="mb-3">
@@ -86,7 +103,7 @@ export default function AbAdd() {
                     value={myForm.mobile}
                     onChange={onChange}
                   />
-                  <div className="form-text"></div>
+                  <div className="form-text">{myFormErrors.mobile}</div>
                 </div>
 
                 <div className="mb-3">
