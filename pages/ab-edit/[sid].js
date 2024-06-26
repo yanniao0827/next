@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { AB_LIST } from "@/config/api-path";
+import { AB_LIST, AB_UPDATE_PUT } from "@/config/api-path";
 import Layout1 from "@/components/layouts/layout1";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { z } from "zod";
 import { AB_ADD_POST } from "@/config/api-path";
+import { AB_GET_ITEM } from "@/config/api-path";
 
 export default function AbAdd() {
   const router = useRouter();
 
   const [myForm, setMyForm] = useState({
+    sid:0,
     name: "",
     email: "",
     mobile: "",
@@ -61,7 +63,7 @@ export default function AbAdd() {
     }
     // 走到這邊表示, 表單有通過驗證
     try {
-      const r = await fetch(AB_ADD_POST, {
+      const r = await fetch(AB_UPDATE_PUT, {
         method: "POST",
         body: JSON.stringify(myForm),
         headers: {
@@ -78,98 +80,114 @@ export default function AbAdd() {
       console.log(ex);
     }
   };
-
+  
+  useEffect(()=>{
+    if(!router.isReady) return;
+    fetch(`${AB_GET_ITEM}/${router.query.sid}`)
+    .then((r)=>r.json())
+    .then((result)=>{
+        // 如果抓不到資料 透過router回列表頁
+        if(result.success){
+            setMyForm(result.data);
+        }else{
+            router.push("ab/list");
+        }
+    })
+    .catch((ex)=>{});
+  },[router])
   return (
     <Layout1 title="編輯通訊錄" pageName="ab-edit">
       <div className="row">
         <div className="col-6">
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">編輯資料</h5>
-              <form name="form1" onSubmit={onSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="name" className="form-label">
-                    姓名
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    name="name"
-                    value={myForm.name}
-                    onChange={onChange}
-                  />
-                  <div className="form-text">{myFormErrors.name}</div>
-                </div>
+        {!! myForm.sid && (
+            <div className="card">
+              <div className="card-body">
+                <h5 className="card-title">編輯資料</h5>
+                <form name="form1" onSubmit={onSubmit}>
+                  <div className="mb-3">
+                    <label htmlFor="name" className="form-label">
+                      姓名
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="name"
+                      name="name"
+                      value={myForm.name}
+                      onChange={onChange}
+                    />
+                    <div className="form-text">{myFormErrors.name}</div>
+                  </div>
 
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
-                    Email
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    value={myForm.email}
-                    onChange={onChange}
-                  />
-                  <div className="form-text">{myFormErrors.email}</div>
-                </div>
+                  <div className="mb-3">
+                    <label htmlFor="email" className="form-label">
+                      Email
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="email"
+                      name="email"
+                      value={myForm.email}
+                      onChange={onChange}
+                    />
+                    <div className="form-text">{myFormErrors.email}</div>
+                  </div>
 
-                <div className="mb-3">
-                  <label htmlFor="mobile" className="form-label">
-                    手機
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="mobile"
-                    name="mobile"
-                    value={myForm.mobile}
-                    onChange={onChange}
-                  />
-                  <div className="form-text">{myFormErrors.mobile}</div>
-                </div>
+                  <div className="mb-3">
+                    <label htmlFor="mobile" className="form-label">
+                      手機
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="mobile"
+                      name="mobile"
+                      value={myForm.mobile}
+                      onChange={onChange}
+                    />
+                    <div className="form-text">{myFormErrors.mobile}</div>
+                  </div>
 
-                <div className="mb-3">
-                  <label htmlFor="birthday" className="form-label">
-                    生日
-                  </label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="birthday"
-                    name="birthday"
-                    value={myForm.birthday}
-                    onChange={onChange}
-                  />
-                  <div className="form-text"></div>
-                </div>
+                  <div className="mb-3">
+                    <label htmlFor="birthday" className="form-label">
+                      生日
+                    </label>
+                    <input
+                      type="date"
+                      className="form-control"
+                      id="birthday"
+                      name="birthday"
+                      value={myForm.birthday}
+                      onChange={onChange}
+                    />
+                    <div className="form-text"></div>
+                  </div>
 
-                <div className="mb-3">
-                  <label htmlFor="address" className="form-label">
-                    地址
-                  </label>
+                  <div className="mb-3">
+                    <label htmlFor="address" className="form-label">
+                      地址
+                    </label>
 
-                  <textarea
-                    className="form-control"
-                    id="address"
-                    name="address"
-                    cols="30"
-                    rows="3"
-                    value={myForm.address}
-                    onChange={onChange}
-                  ></textarea>
-                  <div className="form-text"></div>
-                </div>
+                    <textarea
+                      className="form-control"
+                      id="address"
+                      name="address"
+                      cols="30"
+                      rows="3"
+                      value={myForm.address}
+                      onChange={onChange}
+                    ></textarea>
+                    <div className="form-text"></div>
+                  </div>
 
-                <button type="submit" className="btn btn-primary">
-                  修改
-                </button>
-              </form>
-            </div>
+                  <button type="submit" className="btn btn-primary">
+                    修改
+                  </button>
+                </form>
+              </div>
           </div>
+        )}
         </div>
       </div>
     </Layout1>
