@@ -4,6 +4,7 @@ import Layout1 from "@/components/layouts/layout1";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { z } from "zod";
+import { AB_ADD_POST } from "@/config/api-path";
 
 export default function AbAdd() {
   const [myForm, setMyForm] = useState({
@@ -53,6 +54,28 @@ export default function AbAdd() {
     setMyForm(newForm);
   };
 
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    // 如果表單驗證有通過的話
+    try {
+      const r = await fetch(AB_ADD_POST, {
+        method: "POST",
+        body: JSON.stringify(myForm),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const result = await r.json();
+      console.log(result);
+      if (result.success) {
+      } else {
+      }
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
+
   return (
     <Layout1 title="新增通訊錄" pageName="ab-add">
       <div className="row">
@@ -60,7 +83,7 @@ export default function AbAdd() {
           <div className="card">
             <div className="card-body">
               <h5 className="card-title">新增資料</h5>
-              <form name="form1">
+              <form name="form1" onSubmit={onSubmit}>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
                     姓名
