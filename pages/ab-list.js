@@ -4,6 +4,7 @@ import Layout1 from "@/components/layouts/layout1";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { AB_ITEM_DELETE } from "@/config/api-path";
 
 export default function AbList() {
   const router=useRouter();
@@ -14,9 +15,22 @@ export default function AbList() {
     rows: []
   });
 
-  const removeOne=(sid)=>{
-    console.log({sid});
-  }
+ const removeOne = async (sid) => {
+    console.log({ sid });
+    try {
+      const r = await fetch(`${AB_ITEM_DELETE}/${sid}`, {
+        method: "DELETE",
+      });
+      const result = await r.json();
+      console.log(result);
+      if (result.success) {
+        
+        // 留在原本的頁面, 但是要觸發 router 狀態變更, 讓整個頁面更新
+        router.push(location.search); 
+      }
+    } catch (ex) {}
+  };
+ 
 
   useEffect(() => {
     // setLoading(true);
