@@ -42,7 +42,7 @@ export function AuthContextProvider({children}){
         setAuth(emptyAuth);
     };
 
-    return <AuthContext.Provider value={{}}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{ login, logout , auth}}>{children}</AuthContext.Provider>
 }
 
 export const useAuth = () => useContext(AuthContext);

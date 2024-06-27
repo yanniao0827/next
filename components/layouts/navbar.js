@@ -54,6 +54,15 @@ export default function Navbar({pageName=""}) {
                   購物車 <span className="badge text-bg-success">3</span>
                 </Link>
               </li>
+              <li className="nav-item">
+              <Link
+                  className="nav-link"
+                  style={pageName === "/quick" ? myStyle : null}
+                  href="/quick"
+                >
+                  快速登入
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
