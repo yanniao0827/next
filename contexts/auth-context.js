@@ -42,6 +42,17 @@ export function AuthContextProvider({children}){
         setAuth(emptyAuth);
     };
 
+    const getAuthHeader =()=>{
+        if(auth.token){
+            return{
+                Authorization:`Bearer ${auth.token}`,
+            };
+        }else{
+            return{}
+        }
+    };
+
+
     // 用戶即使重刷頁面，登入狀態也會保留
     useEffect(()=>{
         const str=localStorage.getItem(storageKey);
@@ -54,7 +65,7 @@ export function AuthContextProvider({children}){
         }catch(ex){}
     },[])
 
-    return <AuthContext.Provider value={{ login, logout , auth}}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{ login, logout , auth,getAuthHeader}}>{children}</AuthContext.Provider>
 }
 
 export const useAuth = () => useContext(AuthContext);
