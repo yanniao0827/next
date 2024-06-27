@@ -1,4 +1,4 @@
-import { createContext,useContext,useState} from "react";
+import { createContext,useContext,useState,useEffect} from "react";
 import { JWT_LOGIN_POST } from "@/config/api-path";
 
 const AuthContext=createContext();
@@ -41,6 +41,18 @@ export function AuthContextProvider({children}){
         localStorage.removeItem(storageKey);
         setAuth(emptyAuth);
     };
+
+    // 用戶即使重刷頁面，登入狀態也會保留
+    useEffect(()=>{
+        const str=localStorage.getItem(storageKey);
+        if(!str)return;
+        try{
+            const data=JSON.parse(str);
+            if(data?.id && data?.token){
+                setAuth(data);
+            }
+        }catch(ex){}
+    },[])
 
     return <AuthContext.Provider value={{ login, logout , auth}}>{children}</AuthContext.Provider>
 }
