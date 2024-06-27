@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { useAuth } from "@/contexts/auth-context";
 // import styles from ""
 // import Image from "next/image";
 
@@ -10,6 +11,7 @@ const myStyle={
   fontWeight: "900",
 };
 export default function Navbar({pageName=""}) {
+  const {auth,logout}=useAuth();
   return (
     <div className="container">
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -63,6 +65,30 @@ export default function Navbar({pageName=""}) {
                   快速登入
                 </Link>
               </li>
+            </ul>
+            <ul className="navbar-nav mb-2 mb-lg-0">
+              {auth.id && auth.nickname ? (
+                <>
+                  <li className="nav-item">
+                    <a className="nav-link">{auth.nickname}</a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="#/" onClick={() => logout()}>
+                      登出
+                    </a>
+                  </li>
+                </>
+              ) : (
+                <li className="nav-item">
+                  <Link
+                    className="nav-link"
+                    style={pageName === "login-jwt" ? myStyle : null}
+                    href="/login-jwt"
+                  >
+                    登入
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>
