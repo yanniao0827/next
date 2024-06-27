@@ -7,3 +7,6 @@ export const AB_ITEM_DELETE = `${API_SERVER}/address-book/api`;
 export const AB_GET_ITEM = `${API_SERVER}/address-book/api`;
 
 export const AB_UPDATE_PUT = `${API_SERVER}/address-book/api`;
+
+
+export const JWT_LOGIN_POST = `${API_SERVER}/login-jwt`;
