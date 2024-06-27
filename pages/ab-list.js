@@ -6,9 +6,11 @@ import { useRouter } from "next/router";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FaRegPenToSquare } from "react-icons/fa6";
 import { AB_ITEM_DELETE } from "@/config/api-path";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function AbList() {
   const router=useRouter();
+  const {auth,getAuthHeader}=useAuth();
   // const [loading, setLoading] = useState(false);
   // const [loadingError, setLoadingError] = useState('');
   const [data, setData] = useState({
@@ -18,9 +20,16 @@ export default function AbList() {
 
  const removeOne = async (sid) => {
     console.log({ sid });
+    if(!auth.id){
+      alert("你沒有權限");
+    }
+    
     try {
       const r = await fetch(`${AB_ITEM_DELETE}/${sid}`, {
         method: "DELETE",
+        headers:{
+          ...getAuthHeader(),
+        }
       });
       const result = await r.json();
       console.log(result);
