@@ -1,6 +1,7 @@
-import React from "react";
+import React ,{useEffect,useState}from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/auth-context";
+import { useRouter } from "next/router";
 // import styles from ""
 // import Image from "next/image";
 
@@ -11,7 +12,14 @@ const myStyle={
   fontWeight: "900",
 };
 export default function Navbar({pageName=""}) {
+  const [thisPage,setThisPage]=useState("");
   const {auth,logout}=useAuth();
+
+  const router=useRouter();
+
+  useEffect(()=>{
+    setThisPage(location.href);
+  },[router]);
   return (
     <div className="container">
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -83,7 +91,7 @@ export default function Navbar({pageName=""}) {
                   <Link
                     className="nav-link"
                     style={pageName === "login-jwt" ? myStyle : null}
-                    href="/login-jwt"
+                    href={`/login-jwt?u=${thisPage}`}
                   >
                     登入
                   </Link>
